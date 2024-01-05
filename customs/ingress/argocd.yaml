@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argo-cd
+  namespace: argo-cd
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production # ingress.certResolver
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - argocd.buruhketik.com
+      secretName: argocd-tls
+  rules:
+    - host: argocd.buruhketik.com
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: argo-cd-server
+              port:
+                number: 80

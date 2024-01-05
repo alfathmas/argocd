@@ -1926,7 +1926,7 @@ server:
 
   ingress:
     # -- Enable an ingress resource for the Argo CD server
-    enabled: true
+    enabled: false
     # -- Additional ingress annotations
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-production # ingress.certResolver
