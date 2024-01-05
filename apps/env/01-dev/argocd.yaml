@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-cd
+  namespace: argo-cd
+spec:
+  project: infrastructure
+  destination:
+    namespace: argo-cd
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: git@github.com:alfathmas/argocd.git
+    targetRevision: HEAD
+    path: apps/charts/argo-cd
+    helm:
+      valueFiles:
+        - values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
