@@ -1,3 +1,10 @@
 # first
 helm install argo-cd apps/charts/argo-cd --namespace argo-cd
 
+# push to git
+git add .
+git commit -m "init"
+git push origin main
+
+# apply
+kubectl apply -f apps/env/01-dev/argocd.yaml
