@@ -1,0 +1,3 @@
+# first
+helm install argo-cd apps/charts/argo-cd --namespace argo-cd
+

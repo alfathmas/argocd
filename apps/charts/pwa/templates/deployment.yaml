@@ -1,0 +1,112 @@
+{{- $fullName := include "pwa.fullname" . -}}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "pwa.fullname" . }}
+  labels:
+    {{- include "pwa.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.stableReplicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "pwa.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+        checksum/nginx-conf: {{ include (print $.Template.BasePath "/configmap/nginx-conf.yaml") . | sha256sum }}
+        checksum/nginx-default: {{ include (print $.Template.BasePath "/configmap/nginx-default.yaml") . | sha256sum }}
+        checksum/CORS: {{ include (print $.Template.BasePath "/configmap/CORS.yaml") . | sha256sum }}
+      labels:
+        {{- include "pwa.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: nginx-conf-volume
+          configMap:
+            name: {{ include "pwa.fullname" . }}-nginx-conf
+        - name: nginx-default-volume
+          configMap:
+            name: {{ include "pwa.fullname" . }}-nginx-default
+        - name: cors-volume
+          configMap:
+            name: {{ include "pwa.fullname" . }}-cors
+        - name: env-pwa-volume
+          configMap:
+            name: {{ include "pwa.fullname" . }}-env-pwa
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: env-pwa-volume
+              mountPath: /home/app/site/.env
+              subPath: .env
+          command:
+            - bash
+            - -c
+            - "{{ if .Values.pm2.enabled }}
+              pm2-runtime start npm --name '{{ $fullName }}' -- start
+              {{ else }}
+              npm run start
+              {{ end }}"
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+        - name: {{ include "pwa.fullname" . }}-nginx
+          image: nginx
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: nginx-conf-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: nginx-default-volume
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+            - name: cors-volume
+              mountPath: /etc/nginx/CORS.rule
+              subPath: CORS.rule
+          ports:
+            - name: nginx
+              containerPort: 80
+              protocol: TCP
+          {{ if .Values.cattleAutoscaling.enabled }}
+          resources:
+            limits:
+              cpu: 300m
+              memory: 512Mi
+          {{ end }}
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 40
+            periodSeconds: 10
+            failureThreshold: 5
+            successThreshold: 1
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
