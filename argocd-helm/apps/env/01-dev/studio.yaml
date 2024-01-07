@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: git@github.com:alfathmas/argocd.git
     targetRevision: HEAD
-    path: apps/charts/next
+    path: argocd-helm/apps/charts/next
     helm:
       valueFiles:
         - values/studio.values.yaml
