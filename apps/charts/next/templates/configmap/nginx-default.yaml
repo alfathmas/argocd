@@ -2,15 +2,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "pwa.fullname" . }}-nginx-default
+  name: {{ include "next.fullname" . }}-nginx-default
   labels:
-    {{- include "pwa.labels" . | nindent 4 }}
+    {{- include "next.labels" . | nindent 4 }}
 data:
   default.conf: |
     map_hash_max_size 2048;
     map_hash_bucket_size 2048;
 
-    upstream pwa_server{
+    upstream next_server{
       server 127.0.0.1:3000;
     }
     server {
@@ -43,7 +43,7 @@ data:
         proxy_send_timeout    300;
         proxy_read_timeout    300;
         send_timeout          300;
-        proxy_pass   http://pwa_server; # Proxy pass to PWA
+        proxy_pass   http://next_server; # Proxy pass to next
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';

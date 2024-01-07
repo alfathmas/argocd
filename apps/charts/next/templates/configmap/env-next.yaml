@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "next.fullname" . }}-env-next
+  labels:
+    {{- include "next.labels" . | nindent 4 }}
+data:
+  .env: |
+    {{- range $key, $value := .Values.dotEnv }}
+      {{ $key }}={{ $value }}
+    {{- end }}

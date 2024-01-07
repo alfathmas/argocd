@@ -1,19 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-nginx
+  name: studio
   namespace: argocd
 spec:
   project: infrastructure
   destination:
-    namespace: nginx
+    namespace: studio
     server: https://kubernetes.default.svc
   source:
-    repoURL: https://kubernetes.github.io/ingress-nginx
-    targetRevision: 4.9.0
-    chart: ingress-nginx
+    repoURL: git@github.com:alfathmas/argocd.git
+    targetRevision: HEAD
+    path: apps/charts/next
     helm:
-      parameters: []
+      valueFiles:
+        - values/studio.values.yaml
   syncPolicy:
     automated:
       prune: true

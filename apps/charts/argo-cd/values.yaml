@@ -1,11 +1,11 @@
 ## Argo CD configuration
-## Ref: https://github.com/argoproj/argo-cd
+## Ref: https://github.com/argoproj/argocd
 ##
 
 # -- Provide a name in place of `argocd`
 nameOverride: ""
-# -- String to fully override `"argo-cd.fullname"`
-fullnameOverride: ""
+# -- String to fully override `"argocd.fullname"`
+fullnameOverride: "argocd"
 # -- Override the Kubernetes version, which is used to evaluate certain manifests
 kubeVersionOverride: ""
 # Override APIVersions
@@ -15,7 +15,7 @@ apiVersionOverrides:
   # -- String to override apiVersion of GKE resources rendered by this helm chart
   cloudgoogle: "" # cloud.google.com/v1
 
-# -- Create aggregated roles that extend existing cluster roles to interact with argo-cd resources
+# -- Create aggregated roles that extend existing cluster roles to interact with argocd resources
 ## Ref: https://kubernetes.io/docs/reference/access-authn-authz/rbac/#aggregated-clusterroles
 createAggregateRoles: false
 # -- Create cluster roles for cluster-wide installation.
@@ -41,7 +41,7 @@ crds:
 global:
   # -- Common labels for the all resources
   additionalLabels: {}
-    # app: argo-cd
+    # app: argocd
 
   # -- Number of old deployment ReplicaSets to retain. The rest will be garbage collected.
   revisionHistoryLimit: 3
@@ -149,7 +149,7 @@ global:
 ## Argo Configs
 configs:
   # General Argo CD configuration
-  ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
+  ## Ref: https://github.com/argoproj/argocd/blob/master/docs/operator-manual/argocd-cm.yaml
   cm:
     # -- Create the argocd-cm configmap for [declarative setup]
     create: true
@@ -165,15 +165,15 @@ configs:
     application.instanceLabelKey: argocd.argoproj.io/instance
 
     # -- Enable logs RBAC enforcement
-    ## Ref: https://argo-cd.readthedocs.io/en/latest/operator-manual/upgrading/2.3-2.4/#enable-logs-rbac-enforcement
+    ## Ref: https://argocd.readthedocs.io/en/latest/operator-manual/upgrading/2.3-2.4/#enable-logs-rbac-enforcement
     server.rbac.log.enforce.enable: false
 
     # -- Enable exec feature in Argo UI
-    ## Ref: https://argo-cd.readthedocs.io/en/latest/operator-manual/rbac/#exec-resource
+    ## Ref: https://argocd.readthedocs.io/en/latest/operator-manual/rbac/#exec-resource
     exec.enabled: false
 
     # -- Enable local admin user
-    ## Ref: https://argo-cd.readthedocs.io/en/latest/faq/#how-to-disable-admin-user
+    ## Ref: https://argocd.readthedocs.io/en/latest/faq/#how-to-disable-admin-user
     admin.enabled: true
 
     # -- Timeout to discover if a new manifests version got published to the repository
@@ -214,7 +214,7 @@ configs:
     #     - email
 
   # Argo CD configuration parameters
-  ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cmd-params-cm.yaml
+  ## Ref: https://github.com/argoproj/argocd/blob/master/docs/operator-manual/argocd-cmd-params-cm.yaml
   params:
     # -- Create the argocd-cmd-params-cm configmap
     # If false, it is expected the configmap will be created by something else.
@@ -270,7 +270,7 @@ configs:
     application.namespaces: ""
 
   # Argo CD RBAC policy configuration
-  ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
+  ## Ref: https://github.com/argoproj/argocd/blob/master/docs/operator-manual/rbac.md
   rbac:
     # -- Create the argocd-rbac-cm configmap with ([Argo CD RBAC policy]) definitions.
     # If false, it is expected the configmap will be created by something else.
@@ -304,7 +304,7 @@ configs:
     scopes: "[groups]"
 
   # GnuPG public keys for commit verification
-  ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/gpg-verification/
+  ## Ref: https://argocd.readthedocs.io/en/stable/user-guide/gpg-verification/
   gpg:
     # -- Annotations to be added to argocd-gpg-keys-cm configmap
     annotations: {}
@@ -319,7 +319,7 @@ configs:
       #   -----END PGP PUBLIC KEY BLOCK-----
 
   # SSH known hosts for Git repositories
-  ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#ssh-known-host-public-keys
+  ## Ref: https://argocd.readthedocs.io/en/stable/operator-manual/declarative-setup/#ssh-known-host-public-keys
   ssh:
     # -- Annotations to be added to argocd-ssh-known-hosts-cm configmap
     annotations: {}
@@ -346,7 +346,7 @@ configs:
     extraHosts: ''
 
   # Repository TLS certificates
-  # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#repositories-using-self-signed-tls-certificates-or-are-signed-by-custom-ca
+  # Ref: https://argocd.readthedocs.io/en/stable/operator-manual/declarative-setup/#repositories-using-self-signed-tls-certificates-or-are-signed-by-custom-ca
   tls:
     # -- Annotations to be added to argocd-tls-certs-cm configmap
     annotations: {}
@@ -360,7 +360,7 @@ configs:
       #   -----END CERTIFICATE-----
 
   # ConfigMap for Config Management Plugins
-  # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/
+  # Ref: https://argocd.readthedocs.io/en/stable/operator-manual/config-management-plugins/
   cmp:
     # -- Create the argocd-cmp-cm configmap
     create: false
@@ -405,9 +405,9 @@ configs:
   # -- Provide one or multiple [external cluster credentials]
   # @default -- `[]` (See [values.yaml])
   ## Ref:
-  ## - https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#clusters
-  ## - https://argo-cd.readthedocs.io/en/stable/operator-manual/security/#external-cluster-credentials
-  ## - https://argo-cd.readthedocs.io/en/stable/user-guide/projects/#project-scoped-repositories-and-clusters
+  ## - https://argocd.readthedocs.io/en/stable/operator-manual/declarative-setup/#clusters
+  ## - https://argocd.readthedocs.io/en/stable/operator-manual/security/#external-cluster-credentials
+  ## - https://argocd.readthedocs.io/en/stable/user-guide/projects/#project-scoped-repositories-and-clusters
   clusterCredentials: []
     # - name: mycluster
     #   server: https://mycluster.example.com
@@ -497,7 +497,7 @@ configs:
   repositoriesAnnotations: {}
 
   # Argo CD sensitive data
-  # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
+  # Ref: https://argocd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
   secret:
     # -- Create the argocd-secret
     createSecret: true
@@ -519,7 +519,7 @@ configs:
 
     # -- add additional secrets to be added to argocd-secret
     ## Custom secrets. Useful for injecting SSO secrets into environment variables.
-    ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
+    ## Ref: https://argocd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
     ## Note that all values must be non-empty.
     extra:
       {}
@@ -542,7 +542,7 @@ configs:
   # -- Define custom [CSS styles] for your argo instance.
   # This setting will automatically mount the provided CSS and reference it in the argo configuration.
   # @default -- `""` (See [values.yaml])
-  ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/custom-styles/
+  ## Ref: https://argocd.readthedocs.io/en/stable/operator-manual/custom-styles/
   styles: ""
   # styles: |
   #  .sidebar {
@@ -992,7 +992,7 @@ dex:
   volumes: []
 
   # TLS certificate configuration via Secret
-  ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#configuring-tls-to-argocd-dex-server
+  ## Ref: https://argocd.readthedocs.io/en/stable/operator-manual/tls/#configuring-tls-to-argocd-dex-server
   ## Note: Issuing certificates via cert-manager in not supported right now because it's not possible to restart Dex automatically without extra controllers.
   certificateSecret:
     # -- Create argocd-dex-server-tls secret
@@ -1005,7 +1005,7 @@ dex:
     ca: ''
     # -- Certificate private key
     key: ''
-    # -- Certificate data. Must contain SANs of Dex service (ie: argocd-dex-server, argocd-dex-server.argo-cd.svc)
+    # -- Certificate data. Must contain SANs of Dex service (ie: argocd-dex-server, argocd-dex-server.argocd.svc)
     crt: ''
 
   # -- Annotations to be added to the Dex server Deployment
@@ -1571,7 +1571,7 @@ server:
   # - secretRef:
   #     name: secret-name
 
-  # -- Specify postStart and preStop lifecycle hooks for your argo-cd-server container
+  # -- Specify postStart and preStop lifecycle hooks for your argocd-server container
   lifecycle: {}
 
   ## Argo CD extensions
@@ -1781,7 +1781,7 @@ server:
     #   maxUnavailable: 25%
 
   # TLS certificate configuration via cert-manager
-  ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#tls-certificates-used-by-argocd-server
+  ## Ref: https://argocd.readthedocs.io/en/stable/operator-manual/tls/#tls-certificates-used-by-argocd-server
   certificate:
     # -- Deploy a Certificate resource (requires cert-manager)
     enabled: false
@@ -1825,7 +1825,7 @@ server:
     usages: []
 
   # TLS certificate configuration via Secret
-  ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#tls-certificates-used-by-argocd-server
+  ## Ref: https://argocd.readthedocs.io/en/stable/operator-manual/tls/#tls-certificates-used-by-argocd-server
   certificateSecret:
     # -- Create argocd-server-tls secret
     enabled: false
@@ -1926,7 +1926,7 @@ server:
 
   ingress:
     # -- Enable an ingress resource for the Argo CD server
-    enabled: true
+    enabled: false
     # -- Additional ingress annotations
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-staging # ingress.certResolver
@@ -1975,7 +1975,7 @@ server:
     https: true
 
   # dedicated ingress for gRPC as documented at
-  # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/
+  # Ref: https://argocd.readthedocs.io/en/stable/operator-manual/ingress/
   ingressGrpc:
     # -- Enable an ingress resource for the Argo CD server for dedicated [gRPC-ingress]
     enabled: false
@@ -2168,7 +2168,7 @@ repoServer:
   lifecycle: {}
 
   # -- Additional containers to be added to the repo server pod
-  ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/config-management-plugins/
+  ## Ref: https://argocd.readthedocs.io/en/stable/user-guide/config-management-plugins/
   ## Note: Supports use of custom Helm templates
   extraContainers: []
     # - name: cmp-my-plugin
@@ -2336,7 +2336,7 @@ repoServer:
   priorityClassName: ""
 
   # TLS certificate configuration via Secret
-  ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#configuring-tls-to-argocd-repo-server
+  ## Ref: https://argocd.readthedocs.io/en/stable/operator-manual/tls/#configuring-tls-to-argocd-repo-server
   ## Note: Issuing certificates via cert-manager in not supported right now because it's not possible to restart repo server automatically without extra controllers.
   certificateSecret:
     # -- Create argocd-repo-server-tls secret
@@ -2349,7 +2349,7 @@ repoServer:
     ca: ''
     # -- Certificate private key
     key: ''
-    # -- Certificate data. Must contain SANs of Repo service (ie: argocd-repo-server, argocd-repo-server.argo-cd.svc)
+    # -- Certificate data. Must contain SANs of Repo service (ie: argocd-repo-server, argocd-repo-server.argocd.svc)
     crt: ''
 
   ## Repo server service configuration
@@ -2741,7 +2741,7 @@ applicationSet:
         #     - argocd-applicationset.example.com
 
   # TLS certificate configuration via cert-manager
-  ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/#tls-configuration
+  ## Ref: https://argocd.readthedocs.io/en/stable/operator-manual/tls/#tls-configuration
   certificate:
     # -- Deploy a Certificate resource (requires cert-manager)
     enabled: false

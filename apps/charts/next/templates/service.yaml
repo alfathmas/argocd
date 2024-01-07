@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "pwa.fullname" . }}
+  name: {{ include "next.fullname" . }}
   labels:
-    {{- include "pwa.labels" . | nindent 4 }}
+    {{- include "next.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "pwa.selectorLabels" . | nindent 4 }}
+    {{- include "next.selectorLabels" . | nindent 4 }}

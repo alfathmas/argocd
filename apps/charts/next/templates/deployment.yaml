@@ -1,18 +1,18 @@
-{{- $fullName := include "pwa.fullname" . -}}
+{{- $fullName := include "next.fullname" . -}}
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "pwa.fullname" . }}
+  name: {{ include "next.fullname" . }}
   labels:
-    {{- include "pwa.labels" . | nindent 4 }}
+    {{- include "next.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.stableReplicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "pwa.selectorLabels" . | nindent 6 }}
+      {{- include "next.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -23,7 +23,7 @@ spec:
         checksum/nginx-default: {{ include (print $.Template.BasePath "/configmap/nginx-default.yaml") . | sha256sum }}
         checksum/CORS: {{ include (print $.Template.BasePath "/configmap/CORS.yaml") . | sha256sum }}
       labels:
-        {{- include "pwa.selectorLabels" . | nindent 8 }}
+        {{- include "next.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -34,24 +34,24 @@ spec:
       volumes:
         - name: nginx-conf-volume
           configMap:
-            name: {{ include "pwa.fullname" . }}-nginx-conf
+            name: {{ include "next.fullname" . }}-nginx-conf
         - name: nginx-default-volume
           configMap:
-            name: {{ include "pwa.fullname" . }}-nginx-default
+            name: {{ include "next.fullname" . }}-nginx-default
         - name: cors-volume
           configMap:
-            name: {{ include "pwa.fullname" . }}-cors
-        - name: env-pwa-volume
+            name: {{ include "next.fullname" . }}-cors
+        - name: env-next-volume
           configMap:
-            name: {{ include "pwa.fullname" . }}-env-pwa
+            name: {{ include "next.fullname" . }}-env-next
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ include "next.fullname" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
-            - name: env-pwa-volume
+            - name: env-next-volume
               mountPath: /home/app/site/.env
               subPath: .env
           command:
@@ -66,7 +66,7 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
-        - name: {{ include "pwa.fullname" . }}-nginx
+        - name: {{ include "next.fullname" . }}-nginx
           image: nginx
           imagePullPolicy: IfNotPresent
           volumeMounts:
