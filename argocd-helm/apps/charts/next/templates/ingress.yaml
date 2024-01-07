@@ -20,7 +20,6 @@ metadata:
     {{- include "next.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
-    cert-manager.io/issuer: "letsencrypt-staging"
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
