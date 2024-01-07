@@ -36,20 +36,20 @@ service:
   type: ClusterIP
   port: 80
 ingress:
-  enabled: false
+  enabled: true
   className: "nginx"
   annotations: {}
   # kubernetes.io/ingress.class: nginx
   # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: alfabyte.xyz
+    - host: studio2.alfabyte.xyz
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
-    - secretName: alfabyte-tls
+    - secretName: studio2-tls
       hosts:
-        - alfabyte.xyz
+        - studio2.alfabyte.xyz
 resources: {}
 # We usually recommend not to specify default resources and to leave this as a conscious
 # choice for the user. This also increases chances charts run on environments with little
@@ -74,7 +74,3 @@ affinity: {}
 pm2:
   enabled: true
 appEnvironment: "prod"
-dotEnv:
-  STRAPI_API_TOKEN: 6dbc8df5873afb1aab2faf460ff0322ce1ff59b6f347b2df3feeb5dd215ce237b0c06b4c629088c35a0b5dad3b7475f73c5f3101383ad3917ea393cd5a356151494c5e11960c3ac6a02a0e4bc7210e5113a849da5c81cca5ba104abf6f7adcf16b1dfbb1e118012225f834ce9967f32f681af9f69bd369ae62254ab4721831fe
-  PAGE_LIMIT: 6
-  STRAPI_API_URL: https://cms-studio.alfabyte.xyz
