@@ -42,14 +42,14 @@ ingress:
   # kubernetes.io/ingress.class: nginx
   # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: studio2.alfabyte.xyz
+    - host: studio.buruhketik.com
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
-    - secretName: studio2-tls
+    - secretName: studio-tls
       hosts:
-        - studio2.alfabyte.xyz
+        - studio.buruhketik.com
 resources: {}
 # We usually recommend not to specify default resources and to leave this as a conscious
 # choice for the user. This also increases chances charts run on environments with little
