@@ -45,7 +45,7 @@ ingress:
     - host: studio.buruhketik.com
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: prefix
   tls:
     - secretName: studio-tls
       hosts:
