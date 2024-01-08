@@ -7,7 +7,7 @@ image:
   repository: asia-southeast1-docker.pkg.dev/alfath-410301/infra-dev/studio
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0150dab6f9113fc9aa83c84da3e7dda9fb289f65"
+  tag: "62bf19df6a6eba440ddf523a25c96f7ba4faeb6d"
 imagePullSecrets: []
 # - name: myRegistryKeySecretName
 nameOverride: ""
