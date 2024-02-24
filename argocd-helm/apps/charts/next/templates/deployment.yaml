@@ -66,6 +66,13 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 5
+            successThreshold: 1
         - name: {{ include "next.fullname" . }}-nginx
           image: nginx
           imagePullPolicy: IfNotPresent
@@ -90,10 +97,11 @@ spec:
               memory: 512Mi
           {{ end }}
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
               port: 80
-            initialDelaySeconds: 40
-            periodSeconds: 10
+            initialDelaySeconds: 10
+            periodSeconds: 5
             failureThreshold: 5
             successThreshold: 1
           resources:

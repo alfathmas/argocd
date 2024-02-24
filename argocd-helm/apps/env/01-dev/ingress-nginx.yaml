@@ -9,11 +9,12 @@ spec:
     namespace: nginx
     server: https://kubernetes.default.svc
   source:
-    repoURL: https://kubernetes.github.io/ingress-nginx
-    targetRevision: 4.9.0
-    chart: ingress-nginx
+    repoURL: git@github.com:alfathmas/argocd.git
+    targetRevision: HEAD
+    path: argocd-helm/apps/charts/argo-cd
     helm:
-      parameters: []
+      valueFiles:
+        - values.yaml
   syncPolicy:
     automated:
       prune: true

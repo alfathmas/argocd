@@ -7,5 +7,11 @@ git add .
 git commit -m "init"
 git push origin main
 
-# apply
+# apply argocd
 kubectl apply -f apps/env/01-dev/argocd.yaml
+
+# apply cert-manager
+kubectl apply -f apps/env/01-dev/cert-manager.yaml
+
+# sonarqube
+helm install sonarqube -f argocd-helm/apps/charts/sonarqube/values.yaml argocd-helm/apps/charts/sonarqube -n sonarqube
