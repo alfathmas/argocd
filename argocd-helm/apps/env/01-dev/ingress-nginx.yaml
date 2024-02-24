@@ -6,7 +6,7 @@ metadata:
 spec:
   project: infrastructure
   destination:
-    namespace: nginx
+    namespace: ingress
     server: https://kubernetes.default.svc
   source:
     repoURL: git@github.com:alfathmas/argocd.git

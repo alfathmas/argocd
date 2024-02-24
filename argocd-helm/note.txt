@@ -1,5 +1,5 @@
 # first
-helm install argocd apps/charts/argocd --namespace argocd
+helm install argocd apps/charts/argo-cd --namespace argocd
 # helm install argocd argocd/argo-cd -f apps/charts/argocd/values.yaml -n argocd
 
 # push to git
