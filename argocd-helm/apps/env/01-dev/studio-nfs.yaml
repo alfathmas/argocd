@@ -9,12 +9,17 @@ spec:
     namespace: studio
     server: https://kubernetes.default.svc
   source:
-    repoURL: git@github.com:alfathmas/argocd.git
-    targetRevision: HEAD
-    path: argocd-helm/apps/charts/next
+    repoURL: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+    targetRevision: 4.0.18
+    chart: nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
     helm:
-      valueFiles:
-        - ../../env/01-dev/studio/values.yaml
+      parameters:
+        - name: nfs.server
+          value: "10.148.0.25"
+        - name: nfs.path
+          value: "/mnt/sharedfolder"
+        - name: storageClass.name
+          value: "studio-nfs-client"
   syncPolicy:
     automated:
       prune: true
