@@ -13,8 +13,15 @@ spec:
     targetRevision: 4.0.18
     chart: nfs-subdir-external-provisioner
     helm:
-      valueFiles:
-        - ../../env/01-dev/values/cms/nfs.yaml
+      parameters:
+        - name: nfs.server
+          value: "10.148.0.25"
+        - name: nfs.path
+          value: "/mnt/sharedfolder"
+        - name: storageClass.name
+          value: "studio-nfs-client"
+        - name: storageClass.provisionerName
+          value: "k8s-sigs.io/second-nfs-subdir-external-provisioner"
   syncPolicy:
     automated:
       prune: true
