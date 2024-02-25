@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cms
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: cms
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: git@github.com:alfathmas/argocd.git
+    targetRevision: HEAD
+    path: argocd-helm/charts/next
+    helm:
+      valueFiles:
+        - ../../env/01-dev/values/cms/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
