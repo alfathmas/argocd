@@ -1,0 +1,33 @@
+image:
+  repository: registry.k8s.io/sig-storage/nfs-subdir-external-provisioner
+  tag: v4.0.2
+  pullPolicy: IfNotPresent
+
+nfs:
+  server: "10.148.0.25"
+  path: "/mnt/sharedfolder"
+
+# For creating the StorageClass automatically:
+storageClass:
+  name: nfs-client
+
+resources: {}
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Additional labels for any resource created
+labels: {}
+
+podDisruptionBudget:
+  enabled: false
+  maxUnavailable: 1
