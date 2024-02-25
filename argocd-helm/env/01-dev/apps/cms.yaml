@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: git@github.com:alfathmas/argocd.git
     targetRevision: HEAD
-    path: argocd-helm/charts/next
+    path: argocd-helm/charts/cms
     helm:
       valueFiles:
         - ../../env/01-dev/values/cms/values.yaml
