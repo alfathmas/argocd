@@ -27,12 +27,27 @@ spec:
       serviceAccountName: {{ include "cms.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        {{ if .Values.storageClass }}
+        - name: pv-storage
+          persistentVolumeClaim:
+            {{ if .Values.claimName }}
+            claimName: {{ .Values.claimName }}
+            {{ else }}
+            claimName: {{ include "cms.fullname" . }}-nfs
+            {{ end }}
+        {{ end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            {{ if .Values.storageClass }}
+            - name: pv-storage
+              mountPath: /mnt
+            {{ end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
