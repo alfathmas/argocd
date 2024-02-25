@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: studio
   namespace: argocd
 spec:
   project: default
   destination:
-    namespace: argocd
+    namespace: studio
     server: https://kubernetes.default.svc
   source:
     repoURL: git@github.com:alfathmas/argocd.git
     targetRevision: HEAD
-    path: argocd-helm/apps/charts/argo-cd
+    path: argocd-helm/charts/next
     helm:
       valueFiles:
-        - values.yaml
+        - ../env/01-dev/apps/studio/values.yaml
   syncPolicy:
     automated:
       prune: true

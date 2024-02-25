@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: git@github.com:alfathmas/argocd.git
     targetRevision: HEAD
-    path: argocd-helm/apps/charts/ingress-nginx
+    path: argocd-helm/charts/ingress-nginx
     helm:
       valueFiles:
         - values.yaml
