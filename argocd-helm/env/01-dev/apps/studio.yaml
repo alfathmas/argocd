@@ -14,7 +14,7 @@ spec:
     path: argocd-helm/charts/next
     helm:
       valueFiles:
-        - ../env/01-dev/apps/studio/values.yaml
+        - ../env/01-dev/apps/values/studio/values.yaml
   syncPolicy:
     automated:
       prune: true
